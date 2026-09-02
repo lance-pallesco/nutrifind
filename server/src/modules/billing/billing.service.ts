@@ -2,7 +2,7 @@ import type Stripe from "stripe";
 import { prisma } from "../../db/prisma";
 import { AppError } from "../../middleware/error-handler";
 
-function stateFor(status: Stripe.Subscription.Status) {
+export function subscriptionStateFor(status: Stripe.Subscription.Status) {
   if (status === "active" || status === "trialing") return "ACTIVE" as const;
   if (status === "past_due" || status === "unpaid") return "PAST_DUE" as const;
   if (status === "canceled" || status === "incomplete_expired") return "CANCELED" as const;
@@ -21,7 +21,7 @@ export async function upsertStripeSubscription(subscription: Stripe.Subscription
     update: {
       userId: user.id,
       stripePriceId: priceId,
-      state: stateFor(subscription.status),
+      state: subscriptionStateFor(subscription.status),
       currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : null,
       cancelAtPeriodEnd: subscription.cancel_at_period_end,
     },
@@ -29,7 +29,7 @@ export async function upsertStripeSubscription(subscription: Stripe.Subscription
       userId: user.id,
       stripeSubscriptionId: subscription.id,
       stripePriceId: priceId,
-      state: stateFor(subscription.status),
+      state: subscriptionStateFor(subscription.status),
       currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : null,
       cancelAtPeriodEnd: subscription.cancel_at_period_end,
     },

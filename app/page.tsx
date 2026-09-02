@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { ArrowRight, ChevronDown, Clock3, Leaf, LockKeyhole, Search, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, Clock3, Leaf, LockKeyhole, Search } from "lucide-react";
 import { api, type Product, type RecentSearch, type SearchResponse } from "@/lib/api-client";
 import { getDictionary, localeLabels, locales, type Locale } from "@/lib/i18n";
 
