@@ -8,6 +8,7 @@ export type Nutrition = {
 export type Product = { code: string; name: string; brand: string | null; quantity: string | null; imageUrl: string | null; nutrition?: Nutrition };
 export type SearchResponse = { query: string; locale: Locale; canViewNutrition: boolean; products: Product[] };
 export type RecentSearch = { id: string; term: string; locale: Locale; resultCount: number; createdAt: string };
+export type AccountStatus = { canViewNutrition: boolean; subscription: { state: string } | null };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
@@ -22,4 +23,5 @@ export const api = {
   recent: () => request<{ searches: RecentSearch[] }>("/api/searches/recent"),
   search: (term: string, locale: Locale) => request<SearchResponse>("/api/products/search?q=" + encodeURIComponent(term) + "&lang=" + locale),
   checkout: () => request<{ url: string }>("/api/billing/checkout-session", { method: "POST" }),
+  me: () => request<AccountStatus>("/api/auth/me"),
 };

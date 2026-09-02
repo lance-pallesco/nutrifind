@@ -20,7 +20,7 @@ const dictionaries = {
     lockedText: "Subscribe to reveal calories, macros, salt, and more.", subscribe: "Unlock nutrition",
     unavailable: "Not available", brand: "Brand", quantity: "Quantity", unnamed: "Product name unavailable",
     error: "Something went wrong. Please try again.", language: "Language", demo: "Demo account",
-    energy: "Energy", fat: "Fat", carbs: "Carbs", protein: "Protein", salt: "Salt",
+    energy: "Energy", fat: "Fat", carbs: "Carbs", protein: "Protein", salt: "Salt", activeStatus: "Premium active", basicStatus: "Basic access", checkoutSuccess: "Subscription processing — your nutrition details will appear shortly.", checkoutCancelled: "Checkout was cancelled.",
   },
   nl: {
     eyebrow: "Jouw voeding, begrepen", title: "Ontdek het verhaal achter elke verpakking.",
@@ -33,7 +33,7 @@ const dictionaries = {
     lockedText: "Abonneer je om calorieën, macro's, zout en meer te bekijken.", subscribe: "Voedingswaarden ontgrendelen",
     unavailable: "Niet beschikbaar", brand: "Merk", quantity: "Hoeveelheid", unnamed: "Productnaam niet beschikbaar",
     error: "Er ging iets mis. Probeer het opnieuw.", language: "Taal", demo: "Demo-account",
-    energy: "Energie", fat: "Vet", carbs: "Koolhydraten", protein: "Eiwit", salt: "Zout",
+    energy: "Energie", fat: "Vet", carbs: "Koolhydraten", protein: "Eiwit", salt: "Zout", activeStatus: "Premium actief", basicStatus: "Basis toegang", checkoutSuccess: "Abonnement wordt verwerkt — je voedingswaarden verschijnen zo.", checkoutCancelled: "Afrekenen geannuleerd.",
   },
   de: {
     eyebrow: "Deine Ernährung, verstanden", title: "Entdecke die Geschichte hinter jeder Verpackung.",
@@ -46,7 +46,7 @@ const dictionaries = {
     lockedText: "Abonniere, um Kalorien, Makros, Salz und mehr zu sehen.", subscribe: "Nährwerte freischalten",
     unavailable: "Nicht verfügbar", brand: "Marke", quantity: "Menge", unnamed: "Produktname nicht verfügbar",
     error: "Etwas ist schiefgelaufen. Bitte versuche es erneut.", language: "Sprache", demo: "Demo-Konto",
-    energy: "Energie", fat: "Fett", carbs: "Kohlenhydrate", protein: "Protein", salt: "Salz",
+    energy: "Energie", fat: "Fett", carbs: "Kohlenhydrate", protein: "Protein", salt: "Salz", activeStatus: "Premium aktiv", basicStatus: "Basiszugang", checkoutSuccess: "Abonnement wird verarbeitet — deine Nährwerte erscheinen gleich.", checkoutCancelled: "Checkout abgebrochen.",
   },
   fr: {
     eyebrow: "Votre alimentation, en clair", title: "Découvrez l’histoire de chaque emballage.",
@@ -59,10 +59,9 @@ const dictionaries = {
     lockedText: "Abonnez-vous pour voir les calories, macros, sel et plus.", subscribe: "Débloquer la nutrition",
     unavailable: "Indisponible", brand: "Marque", quantity: "Quantité", unnamed: "Nom du produit indisponible",
     error: "Une erreur s’est produite. Veuillez réessayer.", language: "Langue", demo: "Compte démo",
-    energy: "Énergie", fat: "Matières grasses", carbs: "Glucides", protein: "Protéines", salt: "Sel",
+    energy: "Énergie", fat: "Matières grasses", carbs: "Glucides", protein: "Protéines", salt: "Sel", activeStatus: "Premium actif", basicStatus: "Accès de base", checkoutSuccess: "Abonnement en cours — vos valeurs nutritionnelles apparaîtront bientôt.", checkoutCancelled: "Paiement annulé.",
   },
 } as const;
 
 export type Dictionary = (typeof dictionaries)[Locale];
 export function getDictionary(locale: Locale): Dictionary { return dictionaries[locale]; }
-
