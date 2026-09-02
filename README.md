@@ -1,5 +1,15 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Project documentation
+
+The implementation blueprint is documented in:
+
+- [Project plan](docs/PROJECT_PLAN.md) — scope, phases, definition of done, and demo script.
+- [Architecture](docs/ARCHITECTURE.md) — Next.js/Express boundaries and proposed repository structure.
+- [API contract](docs/API_CONTRACT.md) — endpoint behavior and response shapes.
+- [Data model](docs/DATA_MODEL.md) — Prisma schema proposal, entitlement rule, and migration expectations.
+- [Technical decisions](docs/TECHNICAL_DECISIONS.md) — i18n, security, integration, and known limitations.
+
 ## Getting Started
 
 First, run the development server:
