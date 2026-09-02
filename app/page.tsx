@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { ArrowRight, ChevronDown, Clock3, Leaf, LockKeyhole, Search, Sparkles, Utensils } from "lucide-react";
+import { ArrowRight, ChevronDown, Clock3, Leaf, LockKeyhole, Search, Sparkles } from "lucide-react";
 import { api, type Product, type RecentSearch, type SearchResponse } from "@/lib/api-client";
 import { getDictionary, localeLabels, locales, type Locale } from "@/lib/i18n";
 
@@ -13,7 +13,7 @@ function value(number: number | null | undefined, locale: Locale, unit = "g") {
 function ProductImage({ product, fallback }: { product: Product; fallback: string }) {
   const [failed, setFailed] = useState(false);
   if (!product.imageUrl || failed) {
-    return <div className="flex h-full min-h-52 items-center justify-center bg-gradient-to-br from-emerald-50 to-amber-50 text-emerald-700"><Utensils className="size-12 opacity-40" aria-label={fallback} /></div>;
+    return <div className="flex h-full min-h-52 items-center justify-center bg-slate-50 text-xs font-medium text-slate-400">{fallback}</div>;
   }
   return <img src={product.imageUrl} alt={product.name} onError={() => setFailed(true)} className="h-full min-h-52 w-full object-contain bg-white p-6" />; // eslint-disable-line @next/next/no-img-element
 }
@@ -35,7 +35,7 @@ function Card({ product, locked, labels, locale }: { product: Product; locked: b
         <div><p className="text-slate-400">{labels.brand}</p><p className="mt-1 truncate font-semibold text-slate-700">{product.brand ?? labels.unavailable}</p></div>
         <div><p className="text-slate-400">{labels.quantity}</p><p className="mt-1 truncate font-semibold text-slate-700">{product.quantity ?? labels.unavailable}</p></div>
       </div>
-      {locked ? <div className="relative mt-5 overflow-hidden rounded-2xl border border-amber-200 bg-amber-50/70 p-5"><LockKeyhole className="mb-3 size-5 text-amber-700" /><h3 className="text-sm font-bold text-slate-900">{labels.lockedTitle}</h3><p className="mt-1 text-xs leading-5 text-slate-600">{labels.lockedText}</p><button className="mt-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">{labels.subscribe}<ArrowRight className="size-3.5" /></button></div> : <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5"><div className="mb-4 flex items-center justify-between"><h3 className="text-sm font-bold text-slate-900">{labels.nutrition}</h3><Sparkles className="size-4 text-emerald-600" /></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-5">{metrics.map(([name, amount]) => <div key={name} className="rounded-xl bg-white/80 px-3 py-2"><p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">{name}</p><p className="mt-1 text-sm font-bold text-slate-900">{amount}</p></div>)}</div></div>}
+      {locked ? <div className="relative mt-5 overflow-hidden rounded-2xl border border-amber-200 bg-amber-50/70 p-5"><LockKeyhole className="mb-3 size-5 text-amber-700" /><h3 className="text-sm font-bold text-slate-900">{labels.lockedTitle}</h3><p className="mt-1 text-xs leading-5 text-slate-600">{labels.lockedText}</p><button onClick={() => window.dispatchEvent(new CustomEvent("nutrifind:checkout"))} className="mt-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">{labels.subscribe}<ArrowRight className="size-3.5" /></button></div> : <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5"><div className="mb-4 flex items-center justify-between"><h3 className="text-sm font-bold text-slate-900">{labels.nutrition}</h3></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-5">{metrics.map(([name, amount]) => <div key={name} className="rounded-xl bg-white/80 px-3 py-2"><p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">{name}</p><p className="mt-1 text-sm font-bold text-slate-900">{amount}</p></div>)}</div></div>}
     </div>
   </article>;
 }
@@ -51,6 +51,9 @@ export default function Home() {
 
   useEffect(() => {
     void api.startDemo().then(() => api.recent().then((data) => setRecent(data.searches))).catch(() => undefined);
+    const checkout = () => { void api.checkout().then(({ url }) => { window.location.href = url; }).catch(() => setError(true)); };
+    window.addEventListener("nutrifind:checkout", checkout);
+    return () => window.removeEventListener("nutrifind:checkout", checkout);
   }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {

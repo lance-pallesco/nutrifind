@@ -21,5 +21,5 @@ export const api = {
   startDemo: () => request("/api/auth/demo", { method: "POST" }),
   recent: () => request<{ searches: RecentSearch[] }>("/api/searches/recent"),
   search: (term: string, locale: Locale) => request<SearchResponse>("/api/products/search?q=" + encodeURIComponent(term) + "&lang=" + locale),
+  checkout: () => request<{ url: string }>("/api/billing/checkout-session", { method: "POST" }),
 };
-
